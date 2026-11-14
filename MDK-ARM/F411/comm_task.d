@@ -1,7 +1,9 @@
 f411\comm_task.o: ../User/APP/comm_task.c
 f411\comm_task.o: ../User/APP/comm_task.h
-f411\comm_task.o: ../User/APP/protocol.h
 f411\comm_task.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+f411\comm_task.o: ../User/APP/protocol.h
+f411\comm_task.o: ../User/APP/ins_task.h
+f411\comm_task.o: ../Core/Inc/bmi088.h
 f411\comm_task.o: ../Core/Inc/main.h
 f411\comm_task.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 f411\comm_task.o: ../Core/Inc/stm32f4xx_hal_conf.h

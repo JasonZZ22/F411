@@ -1,11 +1,11 @@
 --cpu=Cortex-M4.fp.sp
 "f411\startup_stm32f411xe.o"
-"f411\main.o"
+".roll_stab_stage\main.o"
 "f411\bmi088.o"
 ".roll_stab_stage\imu_solver.o"
 ".roll_stab_stage\ins_task.o"
 ".roll_stab_stage\control_task.o"
-"f411\comm_task.o"
+".roll_stab_stage\comm_task.o"
 "f411\protocol.o"
 ".roll_stab_stage\freertos.o"
 "f411\stm32f4xx_it.o"

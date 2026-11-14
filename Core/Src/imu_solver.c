@@ -205,6 +205,7 @@ int imu_solver_update(void)
     gyro[1] -= s_bias_dps[1];
     gyro[2] -= s_bias_dps[2];
     s_att.roll_rate_dps = gyro[0];
+    s_att.yaw_rate_dps = gyro[2];
 
     /* ---------- 加速度计算出的绝对倾角（重力参考，长期不漂） ---------- */
     roll_acc  = atan2f(acc[1], acc[2]) * IMU_RAD2DEG;
@@ -244,6 +245,7 @@ void imu_solver_reset_attitude(void)
     s_att.pitch = 0.0f;
     s_att.yaw   = 0.0f;
     s_att.roll_rate_dps = 0.0f;
+    s_att.yaw_rate_dps = 0.0f;
 }
 
 void imu_solver_set_yaw(float deg)

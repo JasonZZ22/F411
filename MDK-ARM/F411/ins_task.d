@@ -49,3 +49,4 @@ f411\ins_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers
 f411\ins_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
 f411\ins_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
 f411\ins_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h
+f411\ins_task.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
