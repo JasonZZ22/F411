@@ -70,7 +70,7 @@ static const osThreadAttr_t sensorTask_attributes = {
   .priority = (osPriority_t) osPriorityAboveNormal,
 };
 static const osThreadAttr_t controlTask_attributes = {
-  .name = "controlTask", .stack_size = 128 * 4,
+  .name = "controlTask", .stack_size = 256 * 4,
   .priority = (osPriority_t) osPriorityHigh,
 };
 static const osThreadAttr_t commTask_attributes = {

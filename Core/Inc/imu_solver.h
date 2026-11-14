@@ -93,6 +93,7 @@ typedef struct
     float roll;     /**< 横滚角，度，绕 X 轴，互补滤波 */
     float pitch;    /**< 俯仰角，度，绕 Y 轴，互补滤波 */
     float yaw;      /**< 偏航角，度，绕 Z 轴，**纯积分会漂** */
+    float roll_rate_dps; /**< 去零偏后的 X 轴角速度，度/秒 */
 } imu_attitude_t;
 
 /* ----------------------------------------------------------------------------
@@ -114,7 +115,8 @@ int imu_solver_init(void);
   *         所以即使主循环被串口打印阻塞，角度的积分总量依然是对的
   *         （只是会漏掉几个采样点）。
   */
-void imu_solver_update(void);
+/* 1 = 发布了新姿态，0 = 未到解算周期，-1 = 读取 IMU 失败。 */
+int imu_solver_update(void);
 
 /**
   * @brief  取当前姿态

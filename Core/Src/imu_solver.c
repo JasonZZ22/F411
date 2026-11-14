@@ -180,7 +180,7 @@ int imu_solver_init(void)
     return 0;
 }
 
-void imu_solver_update(void)
+int imu_solver_update(void)
 {
     float dt;
     float acc[3];
@@ -188,19 +188,23 @@ void imu_solver_update(void)
     float roll_acc;
     float pitch_acc;
     float alpha;
+    float roll_pred;
+    float accel_norm_sq;
+    float roll_gravity_sq;
 
-    if (!s_inited) return;
-    if (imu_get_dt(&dt) == 0u) return;
+    if (!s_inited) return -1;
+    if (imu_get_dt(&dt) == 0u) return 0;
 
     /* 主循环被阻塞太久时截断，避免角度一下子跳一大截 */
     if (dt > IMU_SOLVER_MAX_DT_S) dt = IMU_SOLVER_MAX_DT_S;
 
-    if (imu_read_signed(acc, gyro) != 0) return;
+    if (imu_read_signed(acc, gyro) != 0) return -1;
 
     /* ---------- 去零偏 ---------- */
     gyro[0] -= s_bias_dps[0];
     gyro[1] -= s_bias_dps[1];
     gyro[2] -= s_bias_dps[2];
+    s_att.roll_rate_dps = gyro[0];
 
     /* ---------- 加速度计算出的绝对倾角（重力参考，长期不漂） ---------- */
     roll_acc  = atan2f(acc[1], acc[2]) * IMU_RAD2DEG;
@@ -211,11 +215,22 @@ void imu_solver_update(void)
      * 不用跟着重调 tau。 */
     alpha = IMU_SOLVER_TAU_S / (IMU_SOLVER_TAU_S + dt);
 
-    s_att.roll  = alpha * (s_att.roll  + gyro[0] * dt) + (1.0f - alpha) * roll_acc;
+    roll_pred = imu_wrap180(s_att.roll + gyro[0] * dt);
+    accel_norm_sq = acc[0] * acc[0] + acc[1] * acc[1] + acc[2] * acc[2];
+    roll_gravity_sq = acc[1] * acc[1] + acc[2] * acc[2];
+    /* 飞行加速度过大或重力几乎平行于 X 轴时，roll 的加计参考不可靠。 */
+    if (accel_norm_sq > 0.49f && accel_norm_sq < 1.69f &&
+        roll_gravity_sq > 0.04f) {
+        s_att.roll = imu_wrap180(roll_pred +
+            (1.0f - alpha) * imu_wrap180(roll_acc - roll_pred));
+    } else {
+        s_att.roll = roll_pred;
+    }
     s_att.pitch = alpha * (s_att.pitch + gyro[1] * dt) + (1.0f - alpha) * pitch_acc;
 
     /* ---------- yaw：没有绝对参考，纯积分，必然漂 ---------- */
     s_att.yaw = imu_wrap180(s_att.yaw + gyro[2] * dt);
+    return 1;
 }
 
 const imu_attitude_t *imu_solver_get(void)
@@ -228,6 +243,7 @@ void imu_solver_reset_attitude(void)
     s_att.roll  = 0.0f;
     s_att.pitch = 0.0f;
     s_att.yaw   = 0.0f;
+    s_att.roll_rate_dps = 0.0f;
 }
 
 void imu_solver_set_yaw(float deg)

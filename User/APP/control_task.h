@@ -16,6 +16,13 @@ typedef struct {
     uint8_t imu_ready;
     uint8_t imu_sampling;
     uint8_t uart_frame_valid;
+    uint8_t roll_active;
+    float roll_deg;
+    float roll_rate_dps;
+    float roll_error_deg;
+    float roll_rate_target_dps;
+    float roll_output_us;
+    uint16_t servo_us[4];
 } bench_diag_t;
 
 extern volatile bench_diag_t g_bench_diag;
