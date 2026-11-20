@@ -6,7 +6,7 @@
 #include <math.h>
 
 /* 合加速度门限（m/s²，包含静止时约 9.81 m/s² 的重力）；按实测调整。 */
-#define RECORD_ACCEL_THRESHOLD_MS2 20.0f
+#define RECORD_ACCEL_THRESHOLD_MS2 30.0f
 /* 回落到此值以下并持续 200 ms 后，允许下一次录像触发。 */
 #define RECORD_ACCEL_REARM_THRESHOLD_MS2 12.0f
 #define RECORD_ACCEL_REARM_MS 200u
