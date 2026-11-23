@@ -17,15 +17,15 @@
 /* 角度环比例增益：roll 角误差（°）乘以该值，得到目标角速度（°/s）。 */
 #define ROLL_ANGLE_KP_PER_S 2.0f
 /* 角速度误差（°/s）到尾翼偏转角（°）；原 0.4 μs/(°/s) 对应 0.048 °/(°/s)。 */
-#define ROLL_RATE_KP_DEG_PER_DPS 0.048f
+#define ROLL_RATE_KP_DEG_PER_DPS 0.096f
 /* 角度环输出的目标角速度限幅，单位 °/s，正负方向共用。 */
 #define ROLL_RATE_LIMIT_DPS 150.0f
 /* roll 单独可使用的最大尾翼偏转角。 */
 #define ROLL_DEFLECTION_LIMIT_DEG 15.0f
 /* roll 与 yaw 混合后每片尾翼相对中位的最大偏转角。 */
 #define FIN_DEFLECTION_LIMIT_DEG 15.0f
-/* 实测尾翼角度标定：1000～2500 μs 对应 0～180°，1500 μs 为装配中位。 */
-#define SERVO_PULSE_MIN_US 1000.0f
+/* 实测尾翼角度标定：500～2500 μs 对应 0～180°，1500 μs 为装配中位。 */
+#define SERVO_PULSE_MIN_US 500.0f
 #define SERVO_PULSE_MAX_US 2500.0f
 #define FIN_ANGLE_RANGE_DEG 180.0f
 #define SERVO_CENTER_US 1500.0f
@@ -53,7 +53,7 @@
 /* 图像偏差 [-1,1] -> 目标 yaw 角速度（°/s），再由角速度误差产生尾翼偏转角。 */
 #define YAW_IMAGE_KP_DPS 60.0f
 #define YAW_RATE_LIMIT_DPS 60.0f
-#define YAW_RATE_KP_DEG_PER_DPS 0.24f
+#define YAW_RATE_KP_DEG_PER_DPS 0.72f
 #define YAW_DEFLECTION_LIMIT_DEG 36.0f
 /* roll 偏差过大时，画面左右不再近似对应纯 yaw，暂缓 yaw 输出。 */
 #define YAW_ROLL_GUARD_DEG 45.0f
